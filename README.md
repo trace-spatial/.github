@@ -1,139 +1,208 @@
 # Trace
 
-**Offline-first spatial intelligence for finding lost objects through behavioral prediction.**
+**Trace detects interruptions and physically guides users back to what they were doing.**
 
-Trace reconstructs human movement patterns and detects cognitive disruptions to predict where you likely placed misplaced items—no cameras, no tags, no tracking. All intelligence runs on-device. Privacy is the foundation, not a feature.
+Trace is built for people with early cognitive impairment who lose independence when interruptions leave them stuck.
+
+A simple phone call, a doorbell, or a question can break continuity.  
+Trace restores it.
 
 ---
 
 ## The Problem
 
-You don't lose your keys because they moved. You lose them because your attention slipped the moment you set them down. Trace identifies these cognitive interruptions and maps them to physical locations in your space.
+For people with early cognitive impairment, interruptions do not just pause tasks.
+
+They end them.
+
+After an interruption, users often:
+- Walk into a room and forget why
+- Stop mid-task with no sense of how to continue
+- Lose confidence to resume on their own
+
+This is not memory loss.  
+This is loss of continuity.
+
+And loss of continuity leads directly to loss of independence.
 
 ---
 
-## How It Works
+## The Trace Solution
 
-**1. Continuous Sensing**  
-The sensing engine captures IMU data, reconstructs steps and turns, and generates movement episodes as you move through your environment.
+Trace does not remind users what to do.
 
-**2. Zone Mapping**  
-Environmental fingerprints (Wi-Fi, BLE) build a topological map of interaction zones—your desk, kitchen counter, sofa—without GPS or cameras.
+Trace brings them back to **where** they lost their flow.
 
-**3. Behavioral Scoring**  
-CEBE-X analyzes routine stability and attention breaks. It knows when you deviated from normal patterns.
+When a user feels stuck, they tap:
 
-**4. Prediction**  
-When you ask "Where are my keys?", on-device inference surfaces the most likely zone based on movement history and behavioral disruptions.
+> **“I’m stuck.”**
 
-**5. Visualization**  
-The White Void UI highlights predicted zones with confidence indicators and optional guidance paths.
+Trace then:
+1. Analyzes recent motion patterns from the phone
+2. Detects the most likely interruption moment
+3. Physically guides the user back to that location using a directional arrow and haptic feedback
 
-**6. Secure Collaboration (Optional)**  
-If you misplaced something at a friend's house, Azure Confidential Computing matches your trace against their space map—zero-knowledge, encrypted end-to-end. Neither party sees the other's data.
+No maps.  
+No reminders.  
+No task lists.
 
----
-
-## Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                        Trace System                         │
-└─────────────────────────────────────────────────────────────┘
-
-┌──────────────┐      ┌──────────────┐      ┌──────────────┐
-│  Mobile App  │◄────►│    Sensing   │◄────►│     Zone     │
-│   (React     │      │    Engine    │      │    Mapper    │
-│   Native)    │      │  (Rust Core) │      │ (Topo Graph) │
-└──────┬───────┘      └──────────────┘      └──────┬───────┘
-       │                                             │
-       │              ┌──────────────┐               │
-       └─────────────►│   CEBE-X     │◄──────────────┘
-                      │  (Behavior   │
-                      │   Model)     │
-                      └──────┬───────┘
-                             │
-                      ┌──────▼───────┐
-                      │  White Void  │
-                      │      UI      │
-                      └──────────────┘
-
-Optional: Azure Confidential Computing Enclave
-┌─────────────────────────────────────────────────────────┐
-│  Zero-knowledge spatial matching between guest and host │
-│  Private data never leaves the secure enclave           │
-└─────────────────────────────────────────────────────────┘
-```
+Only physical guidance back to the moment that matters.
 
 ---
 
-## Repository Structure
+## How Trace Works
 
-| Repository | Visibility | Purpose |
-|-----------|------------|---------|
-| `trace-app` | Public | React Native app with White Void UI, inference pipeline, encrypted storage |
-| `trace-sensing-engine` | Public | Rust/Swift/Kotlin engine for IMU processing, stance detection, PDR |
-| `trace-zone-mapper` | Private | Privacy-preserving topological graph builder from Wi-Fi/BLE fingerprints |
-| `trace-cebe-x-engine` | Private | Behavioral scoring engine for object placement inference |
-| `trace-collab-secure-service` | Private | Azure Confidential Computing service for secure cross-user matching |
+Trace uses well-established motion processing methods, not experimental surveillance.
+
+### Motion Understanding
+- Kalman filtering for trajectory smoothing
+- Madgwick orientation fusion for device attitude
+- Step and turn reconstruction from inertial data
+- Behavioral change detection from motion variance
+
+### Interruption Detection
+Trace identifies sudden behavior shifts such as:
+- Abrupt stops
+- Direction reversals
+- Search-like pacing
+- Long hesitation
+
+These patterns correlate strongly with interruption moments.
+
+### Guidance
+
+Once the interruption point is identified, Trace:
+- Displays a directional arrow
+- Uses a breathing guidance ring
+- Adds haptic proximity feedback
+
+The user does not think.
+
+They simply follow.
 
 ---
 
-## Technology Stack
+## The Experience
 
-**Mobile:** React Native (TypeScript), Skia/GL for rendering  
-**Native Engine:** Rust, Swift, Kotlin  
-**Inference:** ONNX Runtime Mobile, TFLite (INT8 quantized)  
-**Backend:** Azure Confidential Computing, Azure App Service  
-**Storage:** Encrypted SQLite  
-**ML Training:** Python, PyTorch, ONNX export
+The interface is intentionally minimal:
+
+- One primary action: **“I’m stuck”**
+- One output: **Guidance**
+
+No menus.  
+No clutter.  
+No cognitive load.
+
+Trace is designed to disappear while working.
 
 ---
 
-## Key Features
+## Trust & Privacy
 
-- Fully offline-first architecture
-- No cameras, hardware tags, or continuous cloud sync
-- Behavioral inference, not object tracking
-- Privacy-preserving topological mapping
-- Zero-knowledge secure collaboration
-- Quantized on-device ML models
-- Battery-efficient burst sampling with motion coprocessor integration
+Trace is built on strict privacy principles.
+
+- No camera
+- No microphone recording
+- No raw sensor upload
+- No location tracking maps
+- No identity data
+
+Motion data is processed locally.
+
+Trace understands behavior, not people.
+
+---
+
+## Azure Usage
+
+Trace uses Azure only where it adds reliability, not dependency.
+
+- **Azure Voice Service**  
+  Delivers calm, natural, human guidance voice
+
+- **Azure Application Insights**  
+  Ensures system stability, crash detection, and performance reliability
+
+Trace does not rely on cloud processing to function.
+
+Azure strengthens the experience.  
+It does not replace it.
+
+---
+
+## Who Trace Is For
+
+Trace is built for people who lose independence after interruptions, including:
+
+- Early cognitive impairment
+- Mild cognitive decline
+- Post-stroke attention loss
+- Executive function challenges
+
+Trace is not a productivity tool.
+
+It is an independence tool.
+
+---
+
+## Why Trace Is Different
+
+Other apps track:
+- Tasks
+- Calendars
+- Reminders
+- Notes
+
+Trace tracks where confusion begins.
+
+And brings people back from it.
+
+---
+
+## Design Philosophy
+
+- Human before technical
+- Simplicity before features
+- Guidance before instruction
+- Trust before intelligence
+- Continuity before productivity
 
 ---
 
 ## Current Status
 
-**MVP in Development:**
+Trace MVP includes:
 
-- Sensing engine API and native bindings complete
-- Zone mapping prototypes functional (Python + TypeScript)
-- CEBE-X scoring functions defined
-- White Void UI components in progress
-- Enclave handshake protocol designed
+- Motion processing pipeline
+- Interruption detection logic
+- Physical guidance interface
+- Arrow + haptic navigation
+- Minimal UI flow
+- Azure Voice integration
+- Azure App Insights monitoring
 
-The MVP demonstrates the full sensing pipeline, cognitive scoring loop, and zone prediction interface.
+The system demonstrates real interruption recovery in everyday environments.
 
 ---
 
-## Design Principles
+## Our Belief
 
-- Privacy-first and offline-first
-- Explainable, human-centered predictions
-- Modular, testable microservices
-- Minimal cloud footprint
-- Energy-efficient sensing architecture
+Independence is not about memory.
+
+It is about continuity.
+
+Trace exists to protect continuity.
 
 ---
 
 ## Team
 
-Trace represents the engineering and research work developed for Imagine Cup and experimental deployments.
+Trace is developed as part of the Microsoft Imagine Cup.
 
 ---
 
-## Getting Started
+## Contact
 
-Documentation for setup, architecture deep-dives, and API references coming soon.
+For questions, feedback, or collaboration, please open an issue in this repository.
 
-For questions or collaboration inquiries, open an issue in the relevant repository.
+Trace is built to help people continue their day instead of restarting it.
